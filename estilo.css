@@ -1,0 +1,226 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --azul-oscuro: #0d3b7a;
+    --azul: #1e5aa8;
+    --azul-claro: #3b8eed;
+    --fondo-card: #1a1f2e;
+    --fondo-input: #252b3b;
+    --borde: #3d4659;
+    --texto: #f0f4f8;
+    --texto-suave: #94a3b8;
+    --sombra: 0 20px 60px rgba(0, 0, 0, 0.35);
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--azul-oscuro) 0%, var(--azul) 50%, #2563b0 100%);
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    color: var(--texto);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.login-box {
+    width: 100%;
+    max-width: 420px;
+    background: var(--fondo-card);
+    padding: 40px 36px;
+    border-radius: 16px;
+    border: 1px solid var(--borde);
+    box-shadow: var(--sombra);
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.login-logo {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 16px;
+    background: linear-gradient(135deg, var(--azul-claro), var(--azul));
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -1px;
+    box-shadow: 0 4px 16px rgba(59, 142, 237, 0.4);
+}
+
+.login-box h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.login-box .subtitle {
+    color: var(--texto-suave);
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.login-error {
+    background: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    color: #fca5a5;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.login-box label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--texto-suave);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 12px 14px;
+    background: var(--fondo-input);
+    border: 1px solid var(--borde);
+    border-radius: 8px;
+    color: var(--texto);
+    font-size: 0.95rem;
+    font-family: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: var(--azul-claro);
+    box-shadow: 0 0 0 3px rgba(59, 142, 237, 0.25);
+}
+
+select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2394a3b8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+}
+
+select option {
+    background: var(--fondo-input);
+    color: var(--texto);
+}
+
+button {
+    width: 100%;
+    padding: 13px;
+    margin-top: 8px;
+    background: linear-gradient(135deg, var(--azul-claro), var(--azul));
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+    box-shadow: 0 4px 14px rgba(30, 90, 168, 0.45);
+}
+
+button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(30, 90, 168, 0.55);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+/* Panel */
+body.panel-page {
+    display: block;
+    padding: 0;
+}
+
+.panel-nav {
+    background: var(--fondo-card);
+    border-bottom: 1px solid var(--borde);
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.panel-nav .brand {
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.panel-nav a {
+    color: var(--texto-suave);
+    text-decoration: none;
+    font-size: 0.9rem;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: 1px solid var(--borde);
+    transition: background 0.2s, color 0.2s;
+}
+
+.panel-nav a:hover {
+    background: var(--fondo-input);
+    color: var(--texto);
+}
+
+.panel-content {
+    max-width: 720px;
+    margin: 48px auto;
+    padding: 0 24px;
+}
+
+.panel-card {
+    background: var(--fondo-card);
+    border: 1px solid var(--borde);
+    border-radius: 16px;
+    padding: 36px;
+    box-shadow: var(--sombra);
+}
+
+.panel-card h1 {
+    font-size: 1.6rem;
+    margin-bottom: 8px;
+}
+
+.panel-card .rol-badge {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 6px 14px;
+    background: rgba(59, 142, 237, 0.15);
+    color: var(--azul-claro);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+.panel-card p {
+    color: var(--texto-suave);
+    margin-top: 4px;
+}
