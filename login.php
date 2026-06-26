@@ -22,7 +22,7 @@ if(mysqli_num_rows($resultado) > 0){
     if($rol == "Direccion"){
         header("Location: direccion/dashboard.php");
     }else if($rol == "Jefe de Departamento"){
-        header("Location: jefe/dashboard.php");
+        header("Location: panel-departamento.php");
     }
 
     exit();
