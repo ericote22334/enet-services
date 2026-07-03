@@ -1,3 +1,17 @@
+<?php
+session_start();
+
+if(!isset($_SESSION["dni"])){
+    header("Location: index.php");
+    exit();
+}
+
+if($_SESSION["cargo"] != "Jefe"){
+    header("Location: logout.php");
+    exit();
+}
+?>
+
 <body class="panel-page">
     <header class="panel-header">
         <h1>Panel de Departamento</h1>

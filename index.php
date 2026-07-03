@@ -37,7 +37,7 @@
             <?php if ($_GET['error'] === 'rol'): ?>
                 El rol seleccionado no coincide con tu usuario.
             <?php else: ?>
-                Usuario o contraseña incorrectos.
+                DNI o contraseña incorrectos.
             <?php endif; ?>
         </p>
     <?php endif; ?>
@@ -48,9 +48,9 @@
 
         <div class="form-group">
 
-            <label for="usuario">Usuario</label>
+            <label for="dni">DNI</label>
 
-            <input type="text" id="usuario" name="usuario" placeholder="Ingresá tu usuario" required>
+            <input type="text" id="dni" name="dni" placeholder="Ingresá tu DNI" required>
 
         </div>
 
@@ -70,13 +70,10 @@
 
             <label for="rol">Rol</label>
 
-            <select id="rol" name="rol" required>
-
-                <option value="Direccion">Dirección</option>
-
-                <option value="Jefe de Departamento">Jefe de Departamento</option>
-
-            </select>
+<select id="rol" name="rol" required>
+    <option value="Director">Dirección</option>
+    <option value="Jefe">Jefe de Departamento</option>
+</select>
 
         </div>
 
