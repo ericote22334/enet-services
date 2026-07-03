@@ -57,15 +57,25 @@ mysqli_stmt_bind_param(
 
 mysqli_stmt_execute($stmt);
 
-// Eliminar proyecto
-$sql = "DELETE FROM proyectos WHERE id_proyecto=?";
+// Eliminar historial del proyecto
+$sql = "DELETE FROM historial_proyectos WHERE proyecto = ?";
 
 $stmt = mysqli_prepare($conexion, $sql);
-
 mysqli_stmt_bind_param($stmt, "i", $id);
-
 mysqli_stmt_execute($stmt);
 
+// Eliminar proyecto
+$sql = "DELETE FROM proyectos WHERE id_proyecto = ?";
+
+$stmt = mysqli_prepare($conexion, $sql);
+mysqli_stmt_bind_param($stmt, "i", $id);
+
+if(mysqli_stmt_execute($stmt)){
+    header("Location: panel.php?eliminado=1");
+    exit();
+}else{
+    die(mysqli_error($conexion));
+}
 header("Location: proyectos.php?eliminado=1");
 exit();
 ?>
