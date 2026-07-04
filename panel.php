@@ -82,360 +82,237 @@ $proyectos = mysqli_query($conexion,$sql);
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Panel Director</title>
-
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+<title>Panel Director - EnetServices</title>
 
 <link rel="stylesheet" href="estilo.css">
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 </head>
 
-<body class="bg-light">
+<body class="panel-page">
 
-<nav class="navbar navbar-dark bg-dark">
+<nav class="panel-nav">
 
-<div class="container-fluid">
+    <div class="brand">
+        <i class="fas fa-building-columns"></i>
+        <span>ENET SERVICES</span>
+    </div>
 
-<span class="navbar-brand">
-
-ENET SERVICES
-
-</span>
-
-<div class="text-white">
-
-<?= htmlspecialchars($_SESSION["nombre"]." ".$_SESSION["apellido"]) ?>
-
-|
-
-<?= $_SESSION["cargo"] ?>
-
-<a href="logout.php" class="btn btn-danger btn-sm ms-3">
-
-Cerrar sesión
-
-</a>
-
-</div>
-
-</div>
+    <div class="nav-user">
+        <span class="user-name">
+            <?= htmlspecialchars($_SESSION["nombre"]." ".$_SESSION["apellido"]) ?>
+            <span class="user-role"><?= htmlspecialchars($_SESSION["cargo"]) ?></span>
+        </span>
+        <a href="logout.php" class="btn-logout">
+            <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+        </a>
+    </div>
 
 </nav>
 
-<div class="container mt-4">
+<div class="director-content">
 
-<h2 class="mb-4">
+    <h1 class="director-title"><i class="fas fa-chart-line"></i> Panel de Dirección</h1>
+    <p class="director-subtitle">Supervisá el estado general de todos los proyectos del área.</p>
 
-Panel de Dirección
+    <!-- TARJETAS DE ESTADÍSTICAS -->
+    <div class="stats-grid-director">
 
-</h2>
-
-<!-- TARJETAS -->
-
-<!-- TARJETAS -->
-
-<div class="row g-3 mb-4">
-
-    <div class="col-md-2">
-        <div class="card shadow text-center">
-            <div class="card-body">
-                <h6 class="text-muted">Total de proyectos</h6>
-                <h2><?= $total["total"] ?></h2>
-                <small class="text-secondary">Proyectos registrados</small>
+        <div class="stat-card stat-total">
+            <div class="stat-icon"><i class="fas fa-folder-open"></i></div>
+            <div class="stat-info">
+                <div class="stat-number"><?= $total["total"] ?></div>
+                <div class="stat-label">Total</div>
             </div>
         </div>
-    </div>
 
-    <div class="col-md-2">
-        <div class="card shadow border-warning text-center">
-            <div class="card-body">
-                <h6 class="text-warning">Pendientes</h6>
-                <h2><?= $pendientes["total"] ?></h2>
-                <small class="text-secondary">Aún sin asignar</small>
+        <div class="stat-card stat-pendiente">
+            <div class="stat-icon"><i class="fas fa-hourglass-half"></i></div>
+            <div class="stat-info">
+                <div class="stat-number"><?= $pendientes["total"] ?></div>
+                <div class="stat-label">Pendientes</div>
             </div>
         </div>
-    </div>
 
-    <div class="col-md-2">
-        <div class="card shadow border-primary text-center">
-            <div class="card-body">
-                <h6 class="text-primary">Delegados</h6>
-                <h2><?= $delegados["total"] ?></h2>
-                <small class="text-secondary">En poder de un jefe</small>
+        <div class="stat-card stat-delegado">
+            <div class="stat-icon"><i class="fas fa-share-nodes"></i></div>
+            <div class="stat-info">
+                <div class="stat-number"><?= $delegados["total"] ?></div>
+                <div class="stat-label">Delegados</div>
             </div>
         </div>
-    </div>
 
-    <div class="col-md-2">
-        <div class="card shadow border-info text-center">
-            <div class="card-body">
-                <h6 class="text-info">En revisión</h6>
-                <h2><?= $revision["total"] ?></h2>
-                <small class="text-secondary">Esperando revisión</small>
+        <div class="stat-card stat-revision">
+            <div class="stat-icon"><i class="fas fa-magnifying-glass"></i></div>
+            <div class="stat-info">
+                <div class="stat-number"><?= $revision["total"] ?></div>
+                <div class="stat-label">En revisión</div>
             </div>
         </div>
-    </div>
 
-    <div class="col-md-2">
-        <div class="card shadow border-danger text-center">
-            <div class="card-body">
-                <h6 class="text-danger">Devueltos</h6>
-                <h2><?= $devueltos["total"] ?></h2>
-                <small class="text-secondary">Requieren cambios</small>
+        <div class="stat-card stat-devuelto">
+            <div class="stat-icon"><i class="fas fa-rotate-left"></i></div>
+            <div class="stat-info">
+                <div class="stat-number"><?= $devueltos["total"] ?></div>
+                <div class="stat-label">Devueltos</div>
             </div>
         </div>
-    </div>
 
-    <div class="col-md-2">
-        <div class="card shadow border-success text-center">
-            <div class="card-body">
-                <h6 class="text-success">Finalizados</h6>
-                <h2><?= $finalizados["total"] ?></h2>
-                <small class="text-secondary">Proyectos completados</small>
+        <div class="stat-card stat-finalizado">
+            <div class="stat-icon"><i class="fas fa-circle-check"></i></div>
+            <div class="stat-info">
+                <div class="stat-number"><?= $finalizados["total"] ?></div>
+                <div class="stat-label">Finalizados</div>
             </div>
         </div>
+
+    </div>
+
+    <!-- BUSCADOR + NUEVO PROYECTO -->
+    <div class="director-toolbar">
+
+        <form method="GET" class="search-form">
+            <div class="search-input-wrap">
+                <i class="fas fa-search"></i>
+                <input
+                    type="text"
+                    name="buscar"
+                    placeholder="Buscar proyecto por título..."
+                    value="<?= htmlspecialchars($buscar) ?>">
+            </div>
+        </form>
+
+        <a href="nuevo-proyecto.php" class="btn-nuevo">
+            <i class="fas fa-plus"></i> Nuevo Proyecto
+        </a>
+
+    </div>
+
+    <!-- TABLA DE PROYECTOS -->
+    <div class="table-card">
+
+        <div class="table-card-header">
+            <i class="fas fa-list-check"></i> Proyectos
+        </div>
+
+        <div class="table-wrap">
+
+        <?php if(mysqli_num_rows($proyectos)>0): ?>
+
+        <table class="tabla-director">
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Título</th>
+                    <th>Director</th>
+                    <th>Jefe</th>
+                    <th>Estado</th>
+                    <th>Fecha</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+            <?php while($fila=mysqli_fetch_assoc($proyectos)): ?>
+
+                <tr>
+
+                    <td>#<?= $fila["id_proyecto"] ?></td>
+
+                    <td><?= htmlspecialchars($fila["titulo"]) ?></td>
+
+                    <td><?= htmlspecialchars($fila["director_apellido"].", ".$fila["director_nombre"]) ?></td>
+
+                    <td>
+                        <?php if($fila["jefe_nombre"]): ?>
+                            <?= htmlspecialchars($fila["jefe_apellido"].", ".$fila["jefe_nombre"]) ?>
+                        <?php else: ?>
+                            <span class="texto-atenuado">Sin asignar</span>
+                        <?php endif; ?>
+                    </td>
+
+                    <td>
+                        <?php switch($fila["estado"]):
+                            case "Pendiente": ?>
+                                <span class="badge-estado badge-pendiente"><i class="fas fa-hourglass-half"></i> Pendiente</span>
+                            <?php break;
+                            case "Delegado": ?>
+                                <span class="badge-estado badge-delegado"><i class="fas fa-share-nodes"></i> Delegado</span>
+                            <?php break;
+                            case "En Revision": ?>
+                                <span class="badge-estado badge-revision"><i class="fas fa-magnifying-glass"></i> En revisión</span>
+                            <?php break;
+                            case "Devuelto": ?>
+                                <span class="badge-estado badge-devuelto"><i class="fas fa-rotate-left"></i> Devuelto</span>
+                            <?php break;
+                            case "Finalizado": ?>
+                                <span class="badge-estado badge-finalizado"><i class="fas fa-circle-check"></i> Finalizado</span>
+                            <?php break;
+                        endswitch; ?>
+                    </td>
+
+                    <td><?= date("d/m/Y",strtotime($fila["fecha_creacion"])) ?></td>
+
+                    <td>
+                        <div class="acciones-cell">
+
+                            <a
+                                href="detalle-proyecto.php?id=<?= $fila["id_proyecto"] ?>"
+                                class="btn-icon btn-ver-icon"
+                                title="Ver">
+                                <i class="fas fa-eye"></i>
+                            </a>
+
+                            <a
+                                href="editar-proyecto.php?id=<?= $fila["id_proyecto"] ?>"
+                                class="btn-icon btn-editar-icon"
+                                title="Editar">
+                                <i class="fas fa-pen"></i>
+                            </a>
+
+                            <a
+                                href="delegar-proyecto.php?id=<?= $fila["id_proyecto"] ?>"
+                                class="btn-icon btn-delegar-icon"
+                                title="Delegar">
+                                <i class="fas fa-share-nodes"></i>
+                            </a>
+
+                            <a
+                                href="eliminar-proyecto.php?id=<?= $fila["id_proyecto"] ?>"
+                                class="btn-icon btn-eliminar-icon"
+                                title="Eliminar"
+                                onclick="return confirm('¿Está seguro de eliminar este proyecto?')">
+                                <i class="fas fa-trash"></i>
+                            </a>
+
+                        </div>
+                    </td>
+
+                </tr>
+
+            <?php endwhile; ?>
+
+            </tbody>
+
+        </table>
+
+        <?php else: ?>
+
+            <div class="sin-resultados">
+                <i class="fas fa-folder-open"></i>
+                No hay proyectos registrados.
+            </div>
+
+        <?php endif; ?>
+
+        </div>
+
     </div>
 
 </div>
-<!-- BUSCADOR -->
-
-<div class="row mb-4">
-
-<div class="col-md-8">
-
-<form method="GET">
-
-<div class="input-group">
-
-<input
-type="text"
-class="form-control"
-name="buscar"
-placeholder="Buscar proyecto..."
-value="<?= htmlspecialchars($buscar) ?>">
-
-<button class="btn btn-primary">
-
-Buscar
-
-</button>
-
-</div>
-
-</form>
-
-</div>
-
-<div class="col-md-4 text-end">
-
-<a href="nuevo-proyecto.php" class="btn btn-success">
-
-+ Nuevo Proyecto
-
-</a>
-
-</div>
-
-</div>
-
-<!-- TABLA -->
-
-<div class="card shadow">
-
-<div class="card-header bg-dark text-white">
-
-Proyectos
-
-</div>
-
-<div class="card-body p-0">
-
-<div class="table-responsive">
-
-<table class="table table-hover table-bordered m-0">
-
-<thead class="table-secondary">
-
-<tr>
-
-<th>ID</th>
-
-<th>Título</th>
-
-<th>Director</th>
-
-<th>Jefe</th>
-
-<th>Estado</th>
-
-<th>Fecha</th>
-
-<th width="320">Acciones</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-<?php
-
-if(mysqli_num_rows($proyectos)>0){
-
-while($fila=mysqli_fetch_assoc($proyectos)){
-
-?>
-
-<tr>
-
-<td><?= $fila["id_proyecto"] ?></td>
-
-<td><?= htmlspecialchars($fila["titulo"]) ?></td>
-
-<td>
-
-<?= $fila["director_apellido"].", ".$fila["director_nombre"] ?>
-
-</td>
-
-<td>
-
-<?php
-
-if($fila["jefe_nombre"]){
-
-echo $fila["jefe_apellido"].", ".$fila["jefe_nombre"];
-
-}else{
-
-echo "<span class='text-muted'>Sin asignar</span>";
-
-}
-
-?>
-
-</td>
-
-<td>
-
-<?php
-
-switch($fila["estado"]){
-
-case "Pendiente":
-
-echo "<span class='badge bg-warning text-dark'>Pendiente</span>";
-
-break;
-
-case "Delegado":
-
-echo "<span class='badge bg-primary'>Delegado</span>";
-
-break;
-
-case "En Revision":
-
-echo "<span class='badge bg-info text-dark'>En revisión</span>";
-
-break;
-
-case "Devuelto":
-
-echo "<span class='badge bg-danger'>Devuelto</span>";
-
-break;
-
-case "Finalizado":
-
-echo "<span class='badge bg-success'>Finalizado</span>";
-
-break;
-
-}
-
-?>
-
-</td>
-
-<td>
-
-<?= date("d/m/Y",strtotime($fila["fecha_creacion"])) ?>
-
-</td>
-
-<td>
-
-<a
-href="detalle-proyecto.php?id=<?= $fila["id_proyecto"] ?>"
-class="btn btn-primary btn-sm">
-
-Ver
-
-</a>
-
-<a
-href="editar-proyecto.php?id=<?= $fila["id_proyecto"] ?>"
-class="btn btn-warning btn-sm">
-
-Editar
-
-</a>
-
-<a
-href="delegar-proyecto.php?id=<?= $fila["id_proyecto"] ?>"
-class="btn btn-info btn-sm">
-
-Delegar
-
-</a>
-
-<a
-href="eliminar-proyecto.php?id=<?= $fila["id_proyecto"] ?>"
-class="btn btn-danger btn-sm"
-onclick="return confirm('¿Está seguro de eliminar este proyecto?')">
-
-Eliminar
-
-</a>
-
-</td>
-
-</tr>
-
-<?php
-
-}
-
-}else{
-
-?>
-
-<tr>
-
-<td colspan="7" class="text-center">
-
-No hay proyectos registrados.
-
-</td>
-
-</tr>
-
-<?php } ?>
-
-</tbody>
-
-</table>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-
 
 </body>
 
