@@ -412,6 +412,7 @@ body.panel-page {
 
 .btn-ver:hover {
     transform: translateY(-2px);
+<<<<<<< HEAD
 }
 
 /* ===========================
@@ -811,3 +812,6 @@ body.panel-page {
     }
 }
 
+=======
+}
+>>>>>>> parent of 874a867 (panel director)
