@@ -22,14 +22,11 @@ if (
 $total = mysqli_fetch_assoc(mysqli_query($conexion,
 "SELECT COUNT(*) AS total FROM proyectos"));
 
-$pendientes = mysqli_fetch_assoc(mysqli_query($conexion,
-"SELECT COUNT(*) AS total FROM proyectos WHERE estado='Pendiente'"));
-
 $delegados = mysqli_fetch_assoc(mysqli_query($conexion,
 "SELECT COUNT(*) AS total FROM proyectos WHERE estado='Delegado'"));
 
 $revision = mysqli_fetch_assoc(mysqli_query($conexion,
-"SELECT COUNT(*) AS total FROM proyectos WHERE estado='En Revision'"));
+"SELECT COUNT(*) AS total FROM proyectos WHERE estado IN ('Pendiente','En Revision')"));
 
 $devueltos = mysqli_fetch_assoc(mysqli_query($conexion,
 "SELECT COUNT(*) AS total FROM proyectos WHERE estado='Devuelto'"));
@@ -124,14 +121,6 @@ $proyectos = mysqli_query($conexion,$sql);
             <div class="stat-info">
                 <div class="stat-number"><?= $total["total"] ?></div>
                 <div class="stat-label">Total</div>
-            </div>
-        </div>
-
-        <div class="stat-card stat-pendiente">
-            <div class="stat-icon"><i class="fas fa-hourglass-half"></i></div>
-            <div class="stat-info">
-                <div class="stat-number"><?= $pendientes["total"] ?></div>
-                <div class="stat-label">Pendientes</div>
             </div>
         </div>
 
@@ -279,6 +268,29 @@ $proyectos = mysqli_query($conexion,$sql);
                                 title="Delegar">
                                 <i class="fas fa-share-nodes"></i>
                             </a>
+
+                            <a
+                                href="ver-devoluciones.php?id=<?= $fila["id_proyecto"] ?>"
+                                class="btn-icon btn-ver-icon"
+                                title="Ver devoluciones">
+                                <i class="fas fa-comments"></i>
+                            </a>
+
+                            <?php if ($fila["estado"] !== "Finalizado"): ?>
+                                <a
+                                    href="finalizar-proyecto.php?id=<?= $fila["id_proyecto"] ?>"
+                                    class="btn-icon btn-warning"
+                                    title="Finalizar">
+                                    <i class="fas fa-check"></i>
+                                </a>
+                            <?php else: ?>
+                                <a
+                                    href="finalizar-proyecto.php?id=<?= $fila["id_proyecto"] ?>&action=reopen"
+                                    class="btn-icon btn-secondary"
+                                    title="Reabrir">
+                                    <i class="fas fa-undo"></i>
+                                </a>
+                            <?php endif; ?>
 
                             <a
                                 href="eliminar-proyecto.php?id=<?= $fila["id_proyecto"] ?>"
