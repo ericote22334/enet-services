@@ -95,7 +95,7 @@ $director
 
 mysqli_stmt_execute($stmtHistorial);
 
-header("Location: proyectos.php?ok=1");
+header("Location: panel.php?ok=1");
 
 }else{
 

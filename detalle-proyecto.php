@@ -174,7 +174,7 @@ Descargar
 
 <div class="card-footer">
 
-<a href="proyectos.php" class="btn btn-secondary">
+<a href="panel.php" class="btn btn-secondary">
 
 Volver
 

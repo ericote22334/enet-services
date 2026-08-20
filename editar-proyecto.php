@@ -168,11 +168,9 @@ class="form-control">
 
 <div class="d-flex justify-content-between">
 
-<a
-href="proyectos.php"
-class="btn btn-secondary">
-
-Cancelar
+<a href="panel.php" class="btn btn-secondary">
+    Volver
+</a>
 
 </a>
 

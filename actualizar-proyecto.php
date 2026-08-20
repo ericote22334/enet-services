@@ -138,6 +138,6 @@ $_SESSION["dni"]
 
 mysqli_stmt_execute($stmt);
 
-header("Location: proyectos.php?editado=1");
+header("Location: panel.php?editado=1");
 
 ?>

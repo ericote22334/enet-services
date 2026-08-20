@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     mysqli_stmt_execute($stmt);
 
-    header("Location: proyectos.php");
+    header("Location: panel.php?delegado=1");
     exit();
 
 }
@@ -150,7 +150,7 @@ Delegar
 
 </button>
 
-<a href="proyectos.php"
+<a href="panel.php"
 class="btn btn-secondary">
 
 Cancelar

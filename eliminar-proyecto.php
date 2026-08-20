@@ -76,6 +76,6 @@ if(mysqli_stmt_execute($stmt)){
 }else{
     die(mysqli_error($conexion));
 }
-header("Location: proyectos.php?eliminado=1");
+header("Location: panel.php?eliminado=1");
 exit();
 ?>
