@@ -3,6 +3,7 @@
 session_start();
 
 include("conexion.php");
+include("bot.php");
 
 if (!isset($_SESSION["dni"])) {
     header("Location: login.php");
@@ -94,6 +95,9 @@ $director
 );
 
 mysqli_stmt_execute($stmtHistorial);
+
+// Aviso por WhatsApp al jefe de departamento
+avisarBot($id, "delegado");
 
 header("Location: panel.php?ok=1");
 

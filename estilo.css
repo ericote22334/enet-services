@@ -928,3 +928,15 @@ body.panel-page {
     }
 }
 
+#volver {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+}

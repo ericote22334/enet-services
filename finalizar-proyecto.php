@@ -1,6 +1,7 @@
 <?php
 session_start();
 include("conexion.php");
+include("bot.php");
 
 if (!isset($_SESSION["dni"])) {
     header("Location: index.php");
@@ -48,6 +49,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmtHistorial = mysqli_prepare($conexion, $sqlHistorial);
     mysqli_stmt_bind_param($stmtHistorial, "iiss", $id, $_SESSION["dni"], $accionHistorial, $comentario);
     mysqli_stmt_execute($stmtHistorial);
+
+    // Aviso por WhatsApp al jefe de departamento
+    avisarBot($id, $action === "reopen" ? "reabierto" : "finalizado");
 
     header("Location: panel.php?updated=1");
     exit();

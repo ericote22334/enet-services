@@ -1,6 +1,7 @@
 <?php
 session_start();
 include("conexion.php");
+include("bot.php");
 
 if (!isset($_SESSION["dni"])) {
     header("Location: login.php");
@@ -51,6 +52,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     );
 
     mysqli_stmt_execute($stmt);
+
+    // Aviso por WhatsApp al jefe al que se le delego
+    avisarBot($id, "delegado");
 
     header("Location: panel.php?delegado=1");
     exit();

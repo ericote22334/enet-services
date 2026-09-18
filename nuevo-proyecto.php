@@ -146,7 +146,7 @@ class="form-control">
 
 <div class="d-flex justify-content-between">
 
-<a href="panel.php">
+<a href="panel.php" id="volver" class="btn btn-secondary">
     Volver
 </a>
 
