@@ -158,14 +158,28 @@ function iniciarApi() {
             let enviados = 0;
 
             if (evento === 'delegado') {
-                let texto =
-                    `🔵 *Nuevo proyecto delegado*\n\n${encabezado}\n`;
-                if (p.descripcion) texto += `\n📄 ${p.descripcion}\n`;
-                texto += `\n👤 Cargado por ${p.director_apellido} ${p.director_nombre}\n`;
-                if (p.archivo) texto += `📎 Tiene un archivo adjunto en el sistema.\n`;
-                texto += `\nEscribí *menu* para asignarle un profesor.`;
+                const texto =
+                    `📌 *SE TE ASIGNÓ UN PROYECTO*\n\n` +
+                    `${p.titulo}\n` +
+                    `${p.descripcion || 'Sin descripción.'}`;
 
                 if (await notificar(p.jefe_telefono, texto)) enviados++;
+
+            } else if (evento === 'asignado') {
+                // El jefe le asignó un profesor y el proyecto vuelve a dirección.
+                const nombreProfesor = p.profesor_nombre
+                    ? `${p.profesor_apellido} ${p.profesor_nombre}`
+                    : 'Sin profesor asignado';
+
+                const texto =
+                    `📤 *PROYECTO ENVIADO*\n\n` +
+                    `${p.titulo}\n` +
+                    `${p.descripcion || 'Sin descripción.'}\n` +
+                    `Profesor asignado: ${nombreProfesor}`;
+
+                for (const tel of await q.telefonosDeDireccion()) {
+                    if (await notificar(tel, texto)) enviados++;
+                }
 
             } else if (evento === 'devuelto') {
                 const devoluciones = await q.devolucionesDelProyecto(p.id_proyecto);
@@ -180,13 +194,13 @@ function iniciarApi() {
                     if (await notificar(tel, texto)) enviados++;
                 }
 
-            } else if (evento === 'finalizado' || evento === 'reabierto') {
-                const titulo = evento === 'finalizado'
-                    ? '🟢 *Proyecto finalizado*'
-                    : '🔵 *Proyecto reabierto*';
+            } else if (evento === 'finalizado') {
+                const texto = `✅ PROYECTO ${p.titulo} finalizado, gracias por su trabajo`;
+                if (await notificar(p.jefe_telefono, texto)) enviados++;
 
+            } else if (evento === 'reabierto') {
                 const texto =
-                    `${titulo}\n\n${encabezado}\n` +
+                    `🔵 *Proyecto reabierto*\n\n${encabezado}\n` +
                     `Estado actual: ${p.estado}\n` +
                     `Por ${p.director_apellido} ${p.director_nombre}`;
 

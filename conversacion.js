@@ -305,14 +305,14 @@ async function enrutar(jid, sesion, texto, responder, notificar) {
             `✅ Listo. "${sesion.proyecto.titulo}" quedó asignado a ${nombreProfesor} y en estado *En Revisión*.`
         );
 
-        // Aviso a dirección
+        // Aviso a dirección: el proyecto vuelve con un profesor asignado
         for (const telefono of await q.telefonosDeDireccion()) {
             await notificar(
                 telefono,
-                `🟠 *Proyecto en revisión*\n\n` +
-                `#${sesion.proyecto.id_proyecto} ${sesion.proyecto.titulo}\n` +
-                `Departamento: ${usuario.departamento}\n` +
-                `Asignado por ${usuario.apellido}, ${usuario.nombre} a ${nombreProfesor}.`
+                `📤 *PROYECTO ENVIADO*\n\n` +
+                `${sesion.proyecto.titulo}\n` +
+                `${sesion.proyecto.descripcion || 'Sin descripción.'}\n` +
+                `Profesor asignado: ${nombreProfesor}`
             );
         }
 
@@ -457,9 +457,7 @@ async function enrutar(jid, sesion, texto, responder, notificar) {
         if (sesion.proyecto.jefe_telefono) {
             await notificar(
                 sesion.proyecto.jefe_telefono,
-                `🟢 *Proyecto finalizado*\n\n` +
-                `#${sesion.proyecto.id_proyecto} ${sesion.proyecto.titulo}\n` +
-                `Finalizado por ${usuario.apellido}, ${usuario.nombre} (${usuario.cargo}).`
+                `✅ PROYECTO ${sesion.proyecto.titulo} finalizado, gracias por su trabajo`
             );
         }
 

@@ -1,6 +1,7 @@
-﻿<?php
+<?php
 session_start();
 include("conexion.php");
+include("bot.php");
 
 if (!isset($_SESSION["dni"])) {
     header("Location: index.php");
@@ -51,6 +52,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmtHistorial = mysqli_prepare($conexion, $sqlHistorial);
     mysqli_stmt_bind_param($stmtHistorial, "iis", $id, $_SESSION["dni"], $comentarioHistorial);
     mysqli_stmt_execute($stmtHistorial);
+
+    // Aviso por WhatsApp a direccion: el proyecto vuelve con un profesor asignado
+    avisarBot($id, "asignado");
 
     header("Location: panel-departamento.php?asignado=1");
     exit();
