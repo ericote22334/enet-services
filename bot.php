@@ -13,7 +13,7 @@
  */
 
 define("BOT_URL", "http://127.0.0.1:3001");
-define("BOT_TOKEN", "cambiar-este-token"); // debe coincidir con API_TOKEN del .env
+define("BOT_TOKEN", "Chupala_461"); // debe coincidir con API_TOKEN del .env
 
 function avisarBot($idProyecto, $evento)
 {
