@@ -6,14 +6,14 @@
  * Se incluye con include("bot.php") y se usa así:
  *     avisarBot($id_proyecto, "delegado");
  *
- * Eventos válidos: delegado | devuelto | finalizado | reabierto
+ * Eventos válidos: delegado | asignado | devuelto | finalizado | reabierto | eliminado
  *
  * Si el bot está apagado la función no rompe nada: falla en silencio
  * y el sistema sigue funcionando igual que antes.
  */
 
 define("BOT_URL", "http://127.0.0.1:3001");
-define("BOT_TOKEN", "Chupala_461"); // debe coincidir con API_TOKEN del .env
+define("BOT_TOKEN", "cambiar-este-token"); // debe coincidir con API_TOKEN del .env
 
 function avisarBot($idProyecto, $evento)
 {
@@ -36,11 +36,17 @@ function avisarBot($idProyecto, $evento)
 
     $respuesta = curl_exec($ch);
     $error = curl_error($ch);
+    $codigo = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
     curl_close($ch);
 
     if ($error) {
-        error_log("avisarBot: " . $error);
+        error_log("avisarBot: error de conexion con el bot -> " . $error);
+        return false;
+    }
+
+    if ($codigo !== 200) {
+        error_log("avisarBot: el bot respondio codigo $codigo -> $respuesta");
         return false;
     }
 
@@ -71,7 +77,19 @@ function avisarTelefono($telefono, $mensaje)
     ]);
 
     $respuesta = curl_exec($ch);
+    $error = curl_error($ch);
+    $codigo = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
+
+    if ($error) {
+        error_log("avisarTelefono: error de conexion con el bot -> " . $error);
+        return false;
+    }
+
+    if ($codigo !== 200) {
+        error_log("avisarTelefono: el bot respondio codigo $codigo -> $respuesta");
+        return false;
+    }
 
     return $respuesta;
 }

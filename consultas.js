@@ -59,9 +59,20 @@ async function telefonosDeDireccion() {
     return rows.map((r) => r.telefono);
 }
 
-async function profesoresDelDepartamento(departamento) {
+async function profesoresDelDepartamento(departamento, prefijoApellido = null) {
+    if (prefijoApellido) {
+        const [rows] = await db.execute(`
+            SELECT p.dni, p.nombre, p.apellido, p.telefono
+            FROM personal p
+            INNER JOIN roles r ON r.dni = p.dni
+            WHERE r.cargo = 'Profesor' AND r.departamento = ? AND p.apellido LIKE ?
+            ORDER BY p.apellido, p.nombre
+        `, [departamento, `${prefijoApellido}%`]);
+        return rows;
+    }
+
     const [rows] = await db.execute(`
-        SELECT p.dni, p.nombre, p.apellido
+        SELECT p.dni, p.nombre, p.apellido, p.telefono
         FROM personal p
         INNER JOIN roles r ON r.dni = p.dni
         WHERE r.cargo = 'Profesor' AND r.departamento = ?
@@ -80,7 +91,8 @@ const SELECT_PROYECTO = `
            d.nombre AS director_nombre, d.apellido AS director_apellido,
            j.nombre AS jefe_nombre, j.apellido AS jefe_apellido,
            j.telefono AS jefe_telefono,
-           pf.nombre AS profesor_nombre, pf.apellido AS profesor_apellido
+           pf.nombre AS profesor_nombre, pf.apellido AS profesor_apellido,
+           pf.telefono AS profesor_telefono
     FROM proyectos p
     INNER JOIN personal d ON d.dni = p.director_dni
     LEFT JOIN personal j ON j.dni = p.jefe_dni

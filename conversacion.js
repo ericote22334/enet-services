@@ -231,22 +231,36 @@ async function enrutar(jid, sesion, texto, responder, notificar) {
         const proyecto = elegirDeLista(texto, sesion.lista);
         if (!proyecto) return responder('⚠️ Elegí uno de los números de la lista.');
 
-        const profesores = await q.profesoresDelDepartamento(usuario.departamento);
+        sesion.proyecto = proyecto;
+        sesion.paso = 'buscar_profesor';
+
+        return responder(
+            `📌 *${proyecto.titulo}*\n\n` +
+            'Escribí las primeras letras del apellido del profesor que querés asignar ' +
+            '(por ejemplo "pie" para Pieroni, Pérez...).\n' +
+            'O escribí *todos* para ver la lista completa.'
+        );
+    }
+
+    if (sesion.paso === 'buscar_profesor') {
+        const quiereTodos = texto.trim().toLowerCase() === 'todos';
+        const profesores = await q.profesoresDelDepartamento(
+            usuario.departamento,
+            quiereTodos ? null : texto.trim()
+        );
 
         if (profesores.length === 0) {
-            sesion.paso = 'menu';
-            return responder(
-                `❌ No hay profesores cargados en el departamento de ${usuario.departamento}.\n\n` +
-                menu(usuario)
-            );
+            const motivo = quiereTodos
+                ? `No hay profesores cargados en el departamento de ${usuario.departamento}.`
+                : `😕 No encontré profesores de ${usuario.departamento} que empiecen con "${texto}".\n` +
+                  'Probá con otras letras, o escribí *todos* para ver la lista completa.';
+            return responder(motivo);
         }
 
-        sesion.proyecto = proyecto;
         sesion.lista = profesores;
         sesion.paso = 'asignar_profesor';
 
         return responder(
-            `📌 *${proyecto.titulo}*\n\n` +
             '¿A qué profesor se lo asignás?\n\n' +
             profesores.map((p, i) => `${i + 1}. ${p.apellido}, ${p.nombre}`).join('\n')
         );
@@ -313,6 +327,16 @@ async function enrutar(jid, sesion, texto, responder, notificar) {
                 `${sesion.proyecto.titulo}\n` +
                 `${sesion.proyecto.descripcion || 'Sin descripción.'}\n` +
                 `Profesor asignado: ${nombreProfesor}`
+            );
+        }
+
+        // Aviso al profesor designado
+        if (sesion.profesor.telefono) {
+            await notificar(
+                sesion.profesor.telefono,
+                `📋 *FUISTE DESIGNADO*\n\n` +
+                `${sesion.proyecto.titulo}\n` +
+                `${sesion.proyecto.descripcion || 'Sin descripción.'}`
             );
         }
 

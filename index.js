@@ -181,6 +181,15 @@ function iniciarApi() {
                     if (await notificar(tel, texto)) enviados++;
                 }
 
+                // Aviso al profesor designado
+                if (p.profesor_telefono) {
+                    const textoProfesor =
+                        `📋 *FUISTE DESIGNADO*\n\n` +
+                        `${p.titulo}\n` +
+                        `${p.descripcion || 'Sin descripción.'}`;
+                    if (await notificar(p.profesor_telefono, textoProfesor)) enviados++;
+                }
+
             } else if (evento === 'devuelto') {
                 const devoluciones = await q.devolucionesDelProyecto(p.id_proyecto);
                 const ultima = devoluciones[0];
@@ -197,6 +206,24 @@ function iniciarApi() {
             } else if (evento === 'finalizado') {
                 const texto = `✅ PROYECTO ${p.titulo} finalizado, gracias por su trabajo`;
                 if (await notificar(p.jefe_telefono, texto)) enviados++;
+
+            } else if (evento === 'editado') {
+                if (p.jefe_telefono) {
+                    const texto =
+                        `✏️ *PROYECTO ACTUALIZADO*\n\n` +
+                        `${p.titulo}\n` +
+                        `${p.descripcion || 'Sin descripción.'}\n\n` +
+                        `Dirección actualizó la información del proyecto.`;
+                    if (await notificar(p.jefe_telefono, texto)) enviados++;
+                }
+
+            } else if (evento === 'eliminado') {
+                if (p.jefe_telefono) {
+                    const texto =
+                        `🗑️ *Proyecto eliminado*\n\n${encabezado}\n` +
+                        `Fue eliminado por dirección.`;
+                    if (await notificar(p.jefe_telefono, texto)) enviados++;
+                }
 
             } else if (evento === 'reabierto') {
                 const texto =

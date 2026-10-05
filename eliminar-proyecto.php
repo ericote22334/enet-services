@@ -1,6 +1,7 @@
 <?php
 session_start();
 include("conexion.php");
+include("bot.php");
 
 if (!isset($_SESSION["dni"])) {
     header("Location: login.php");
@@ -56,6 +57,9 @@ mysqli_stmt_bind_param(
 );
 
 mysqli_stmt_execute($stmt);
+
+// Aviso por WhatsApp al jefe antes de borrar (una vez borrado, el bot ya no puede encontrarlo)
+avisarBot($id, "eliminado");
 
 // Eliminar historial del proyecto
 $sql = "DELETE FROM historial_proyectos WHERE proyecto = ?";
